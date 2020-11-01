@@ -18,12 +18,17 @@ public class CommandListener implements EventListener {
             MessageReceivedEvent mre = (MessageReceivedEvent)genericEvent;
             String messageText = mre.getMessage().getContentRaw();
             String[] arg = messageText.split(" ");
+            String command = arg[0].toUpperCase();
             if(arg[0].charAt(0) == '!'){
                 for(DiscordCommand c:commands) {
-                    if (arg[0].substring(1).equals(c.getName())) {
+                    if (command.substring(1).equals(c.getName().toUpperCase())) {
                         String[] args = Arrays.copyOfRange(arg, 1, arg.length);
                         c.getExecutor().onCommand(new CommandMessage(mre.getMessage(), args));
                     }
+                }
+                if(arg[0].equals("!help")){
+                    HelpGenerator gen = new HelpGenerator(commands, mre.getChannel());
+                    gen.generate();
                 }
             }
         }

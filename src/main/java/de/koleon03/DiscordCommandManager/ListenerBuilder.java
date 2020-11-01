@@ -21,4 +21,13 @@ public class ListenerBuilder {
     public CommandListener finish(){
         return listener;
     }
+
+    public DiscordCommand getCommand(String command){
+        for(DiscordCommand d:listener.getCommands()){
+            if(d.getName().equals(command)){
+                return d;
+            }
+        }
+        return new DiscordCommand(command);
+    }
 }
